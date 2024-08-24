@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PrivSearch: Tu motor de búsqueda con opciones para tu navegador. Encuentra lo que buscas de manera segura y rápida.">
+    <title>PrivSearch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #333;
+            --secondary-bg: rgba(255, 255, 255, 0.5);
+            --primary-text: #fff;
+            --highlight-color: #007bff;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: url('/static/background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--primary-text);
+            text-align: center;
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background: var(--primary-bg);
+            color: var(--primary-text);
+        }
+        body.dark-mode .search-wrapper, 
+        body.dark-mode .browser-options {
+            background: var(--secondary-bg);
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+        .search-wrapper {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background: transparent; /* Cambiado a transparente */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+        }
+        .search-wrapper h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: var(--primary-text);
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: none;
+            padding: 0;
+        }
+        .search-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .search-input, .search-button {
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        .search-input {
+            width: calc(100% - 60px);
+            padding: 15px;
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #333;
+            font-size: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .search-input:focus {
+            border-color: var(--highlight-color);
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+        .search-button {
+            padding: 15px 25px;
+            border: none;
+            background-color: var(--highlight-color);
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .search-button i {
+            margin-right: 8px;
+        }
+        .search-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .social-icons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        .social-icons a {
+            color: var(--primary-text);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .social-icons a:hover {
+            color: var(--highlight-color);
+        }
+        .browser-options {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .browser-options a {
+            color: var(--primary-text);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            transition: background 0.3s, color 0.3s;
+        }
+        .browser-options a:hover {
+            background: var(--highlight-color);
+            color: #fff;
+        }
+        .chat-wrapper {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        .chat-wrapper a {
+            color: var(--primary-text);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .chat-wrapper a:hover {
+            color: var(--highlight-color);
+        }
+        @media (max-width: 768px) {
+            .search-input {
+                width: calc(100% - 50px);
+            }
+            .search-button {
+                width: 100%;
+                padding: 12px;
+            }
+            .browser-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            .chat-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-wrapper">
+        <a href="https://chat.openai.com" target="_blank" title="ChatGPT"><i class="fab fa-openai"></i> ChatGPT</a>
+        <a href="https://bard.google.com" target="_blank" title="Google Bard"><i class="fab fa-google"></i> Bard</a>
+        <a href="https://www.ecosia.org/chat?q=" target="_blank" title="Ecosia Chat"><i class="fas fa-globe"></i> Ecosia Chat</a>
+    </div>
+
+    <div class="social-icons">
+        <a href="https://wa.me/573173539733" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://github.com/Fr13nds07860376" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://mindvault.pages.dev/" target="_blank" title="Website"><i class="fas fa-globe"></i></a>
+    </div>
+
+    <div class="search-wrapper">
+        <h1>PrivSearch</h1>
+        <form class="search-form" action="/search" method="get">
+            <input type="text" class="search-input" name="q" placeholder="Buscar..." aria-label="Buscar">
+            <button type="submit" class="search-button">
+                <i class="fa fa-search"></i> Buscar
+            </button>
+        </form>
+        
+        <div class="browser-options">
+            <a href="https://www.google.com/?hl=es&authuser=1" target="_blank">Chrome</a>
+            <a href="https://duckduckgo.com/" target="_blank">Mozilla</a>
+            <a href="https://www.bing.com/" target="_blank">Edge</a>
+            <a href="https://www.youtube.com/" target="_blank">YouTube</a>
+            <div class="social-options">
+                <a href="https://www.facebook.com/" target="_blank" title="Facebook">Facebook</a>
+                <a href="https://www.instagram.com/" target="_blank" title="Instagram">Instagram</a>
+                <a href="https://twitter.com/" target="_blank" title="Twitter">Twitter</a>
+                <a href="https://web.whatsapp.com/" target="_blank" title="WhatsApp Web">WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

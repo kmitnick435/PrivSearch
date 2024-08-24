@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PrivSearch: Resultados de búsqueda para consultas personalizadas.">
+    <title>Resultados de Búsqueda - PrivSearch</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: url('/static/background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            text-align: center;
+        }
+        .search-bar-wrapper {
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .search-bar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            max-width: 400px;
+            width: 100%;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            font-size: 1rem;
+            border-radius: 25px 0 0 25px;
+            outline: none;
+        }
+        .search-button {
+            padding: 10px 15px;
+            background-color: #1e90ff;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 0 25px 25px 0;
+        }
+        .search-button:hover {
+            background-color: #63b1ff;
+        }
+        .results-wrapper {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            color: #eee;
+            text-align: left;
+        }
+        .results-wrapper h1 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: #ddd;
+        }
+        .results-wrapper ul {
+            list-style: none;
+            padding: 0;
+        }
+        .results-wrapper li {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            background: #222;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .results-wrapper .site-title {
+            font-weight: bold;
+            color: #1e90ff;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .results-wrapper .site-url {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        .results-wrapper .description {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            color: #1e90ff;
+            text-decoration: none;
+            margin: 0 5px;
+            font-size: 1rem;
+        }
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+        .pagination .current {
+            font-weight: bold;
+            color: #ddd;
+        }
+        .no-results {
+            font-size: 1.4rem;
+            color: #bbb;
+        }
+        @media (max-width: 768px) {
+            .search-bar-container {
+                max-width: 100%;
+            }
+            .results-wrapper {
+                padding: 20px;
+            }
+            .results-wrapper h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="search-bar-wrapper">
+        <form action="/search" method="GET" class="search-bar-container" role="search">
+            <input type="text" class="search-bar" name="q" placeholder="Buscar en PrivSearch..." value="{{ query }}" aria-label="Campo de búsqueda">
+            <button type="submit" class="search-button" aria-label="Buscar"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+    <div class="results-wrapper">
+        <h1>Resultados de Búsqueda para "{{ query }}"</h1>
+        {% if results %}
+            <ul>
+                {% for result in results %}
+                    <li>
+                        <a href="{{ result.url }}" target="_blank" rel="noopener noreferrer" class="site-title">{{ result.title }}</a>
+                        <p class="site-url">{{ result.url }}</p>
+                        <p class="description">{{ result.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="pagination">
+                {% if prev_page %}
+                    <a href="?q={{ query }}&page={{ prev_page }}">« Anterior</a>
+                {% endif %}
+                {% for page_num in page_numbers %}
+                    <a href="?q={{ query }}&page={{ page_num }}" class="{% if page_num == current_page %}current{% endif %}">{{ page_num }}</a>
+                {% endfor %}
+                {% if next_page %}
+                    <a href="?q={{ query }}&page={{ next_page }}">Siguiente »</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p class="no-results">No se encontraron resultados para "{{ query }}".</p>
+        {% endif %}
+    </div>
+</body>
+</html>
